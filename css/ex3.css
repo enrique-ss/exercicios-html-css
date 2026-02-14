@@ -57,12 +57,6 @@ h2 {
     text-transform: uppercase;
 }
 
-p {
-    font-size: 2.5vh;
-    max-width: 75vw;
-    margin: 2vh auto;
-}
-
 hr {
     width: 40vw;
     height: .4vh;
@@ -71,7 +65,6 @@ hr {
     margin: 2.5vh auto;
 }
 
-/* Cards padrão */
 .card {
     display: inline-block;
     max-width: 30%;
@@ -81,13 +74,12 @@ hr {
     border-radius: .8vh;
     margin: 2vh;
     box-shadow: 0 .8vh 3.2vh rgba(227, 6, 19, .3);
-    transition: transform .4s ease, box-shadow .4s ease;
+    transition: transform .4s ease;
     vertical-align: top;
 }
 
 .card:hover {
     transform: translateY(-1.2vh);
-    box-shadow: 0 1.2vh 4vh rgba(227, 6, 19, .5);
 }
 
 .card img {
@@ -106,13 +98,10 @@ hr {
     padding: 1vh 0 2vh 0;
     font-size: 1.8vh;
     line-height: 1.5;
-    margin: 0;
-    max-width: 100%;
 }
 
 .card a {
-    display: inline-block;
-    width: 100%;
+    display: block;
     background: linear-gradient(135deg, #E30613, #B30000);
     padding: 1.5vh;
     color: #CCC;
@@ -128,29 +117,23 @@ hr {
     background: linear-gradient(135deg, #FF0000, #E30613);
 }
 
-/* CARD DESTACADO - Badge no título igual ao "patrocinado" do ex4 */
 #card-destaque {
     border: .4vh solid #FFD700;
     background: linear-gradient(135deg, #2a1a1a, #1a0a0a);
     transform: scale(1.05);
-    box-shadow: 0 0 4vh rgba(255, 215, 0, 0.4), 0 .8vh 3.2vh rgba(227, 6, 19, .3);
 }
 
 #card-destaque:hover {
     transform: scale(1.05) translateY(-1.2vh);
     border-color: #FFA500;
-    box-shadow: 0 0 6vh rgba(255, 215, 0, 0.6), 0 1.2vh 4vh rgba(227, 6, 19, .5);
 }
 
-/* Badge de destaque igual ao "patrocinado" do ex4 */
 .destaque-badge {
     margin: 1vh 0 0 1.5vh;
-    text-align: left;
     font-size: 1.4vh;
     color: #FFD700;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: .2vh;
     background: rgba(0, 0, 0, 0.5);
     display: inline-block;
     padding: 0.3vh 1.5vh;
@@ -161,7 +144,6 @@ hr {
 #card-destaque .card-content h2 {
     color: #FFD700;
     font-size: 3.2vh;
-    margin-top: 0.5vh;
 }
 
 #card-destaque .card-content p {
@@ -171,7 +153,6 @@ hr {
 #card-destaque a {
     background: linear-gradient(135deg, #FFD700, #B8860B);
     color: #000;
-    border: .1vh solid #FFF;
 }
 
 #card-destaque a:hover {
