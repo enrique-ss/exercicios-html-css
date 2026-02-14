@@ -3,7 +3,6 @@
     src: url('p5.ttf');
 }
 
-/* CSS Reset */
 * {
     margin: 0;
     padding: 0;
@@ -25,13 +24,14 @@ header {
     border-bottom: 1px solid #E30613;
     padding: 2vh 4vw;
     z-index: 1000;
-    box-shadow: 0 4px 20px rgba(227, 6, 19, .3);
+    box-shadow: 0 .4vh 2vh rgba(227, 6, 19, .3);
 }
 
 nav a {
     color: #CCC;
     text-decoration: none;
     text-transform: uppercase;
+    /* Pesquisa do ex4 */
     padding: 1vh 2vw;
     transition: all .3s ease;
 }
@@ -40,11 +40,6 @@ nav a:hover,
 nav a.active {
     color: #E30613;
     border-bottom: 1px solid #E30613;
-}
-
-main {
-    min-height: 80vh;
-    padding: 2rem 2%;
 }
 
 h1 {
@@ -63,18 +58,31 @@ h2 {
     text-transform: uppercase;
 }
 
+p {
+    font-size: 2.5vh;
+    max-width: 75vw;
+    margin: 2vh auto;
+}
+
 hr {
-    width: 40%;
-    height: 4px;
+    width: 40vw;
+    /* Padronizado para vw (antes era %) */
+    height: .4vh;
     border: 0;
     background: linear-gradient(90deg, transparent, #E30613, transparent);
     margin: 2.5vh auto;
 }
 
+/* Específicos do ex4 */
+main {
+    min-height: 80vh;
+    padding: 2rem 2%;
+}
+
 .card {
     display: inline-block;
-    max-width: 44vh;
-    min-width: 32vh;
+    width: 30%;
+    min-width: 320px;
     background: linear-gradient(135deg, #ff070744, #0f0f0f);
     border: 2px solid #E30613;
     border-radius: 8px;
@@ -102,12 +110,13 @@ hr {
 .patrocinado {
     margin: 1vh 0 1vh 1.5vh;
     text-align: left;
-    font-size: 2vh;
+    font-size: 0.8rem;
     color: #999;
 }
 
 .card-content h2 {
     font-weight: 900;
+    font-size: 1.5rem;
     line-height: 1.3;
     margin-bottom: 1vh;
 }
@@ -119,26 +128,26 @@ hr {
 .entrega,
 .estoque,
 .vendedor {
-    font-size: 2vh;
+    font-size: 1rem;
     margin-bottom: 1vh;
 }
 
 .preco .valor {
-    font-size: 4.5vh;
+    font-size: 2.5rem;
     font-weight: 600;
 }
 
 .preco sup {
     vertical-align: super;
+    font-size: 0.9rem;
 }
 
 .preco-antigo {
     text-decoration: line-through;
     margin-left: 6px;
+    color: #999;
 }
 
-.patrocinado,
-.preco-antigo,
 .vendedor {
     color: #999;
 }
@@ -158,7 +167,7 @@ hr {
     background: linear-gradient(135deg, #E30613, #B30000);
     padding: 1.5vh;
     color: #CCC;
-    border-radius: .8vh;
+    border-radius: 8px;
     font-weight: 900;
     transition: background .3s ease;
     cursor: pointer;

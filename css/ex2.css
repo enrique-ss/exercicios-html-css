@@ -55,7 +55,7 @@ h2 {
     font-size: 3vh;
     font-weight: 300;
     text-transform: uppercase;
-    margin-top: 3vh;
+    /* margin-top removido - era a inconsistência */
 }
 
 p {
@@ -66,12 +66,14 @@ p {
 
 hr {
     width: 40vw;
+    /* Padronizado */
     height: .4vh;
     border: 0;
     background: linear-gradient(90deg, transparent, #E30613, transparent);
     margin: 2.5vh auto;
 }
 
+/* Classes específicas do ex2 */
 .lista-numerada,
 .lista-marcada {
     max-width: 75vw;
@@ -89,6 +91,7 @@ hr {
 
 .lista-marcada {
     list-style-type: square;
+    /* Pesquisa do ex2 */
 }
 
 .lista-numerada li,
