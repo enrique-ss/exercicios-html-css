@@ -152,8 +152,7 @@ hr {
 
 #card-destaque a {
     background: linear-gradient(135deg, #FFD700, #B8860B);
-    color: #000;
-}
+    color: #FFF;}
 
 #card-destaque a:hover {
     background: linear-gradient(135deg, #FFF, #FFD700);
