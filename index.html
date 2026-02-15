@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persona 5 | Exercícios</title>
+    <style>
+        @font-face {
+            font-family: 'p5';
+            src: url('/img/p5.ttf');
+            font-display: swap;
+        }
+
+        :root {
+            --red: #d30000;
+            --black: #000000;
+            --white: #ffffff;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: var(--black);
+            font-family: 'p5', 'Impact', sans-serif;
+            height: 100vh;
+            cursor: url('/img/normal.png'), auto;
+        }
+
+        a,
+        .menu-link,
+        .menu-item,
+        button {
+            cursor: url('/img/link.png'), pointer;
+        }
+
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--black);
+            z-index: 3000;
+            display: none;
+            opacity: 0;
+            align-items: flex-end;
+            justify-content: flex-end;
+            padding: 50px;
+            box-sizing: border-box;
+        }
+
+        .loading-text {
+            color: var(--white);
+            font-size: 2.8rem;
+            text-transform: uppercase;
+            text-align: right;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.04));
+            background-size: 100% 4px, 3px 100%;
+            z-index: 99;
+            pointer-events: none;
+        }
+
+        .ui-layer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 10;
+            height: 100vh;
+            width: 60vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+            padding-right: 5vw;
+            pointer-events: none;
+            perspective: 1200px;
+        }
+
+        .menu-link {
+            text-decoration: none;
+            pointer-events: auto;
+            margin: 12px 0;
+        }
+
+        .menu-item {
+            position: relative;
+            opacity: 0;
+            transform-style: preserve-3d;
+            transform: rotateX(10deg) rotateY(-25deg) rotateZ(-3deg) skewX(10deg);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: -5%;
+            left: -5%;
+            width: 100%;
+            height: 100%;
+            background: var(--white);
+            z-index: -2;
+            clip-path: polygon(1% 5%, 99% 1%, 100% 95%, 2% 99%);
+            opacity: 0.1;
+            transition: opacity 0.3s, transform 0.3s ease-out;
+            pointer-events: none;
+            transform: translate3d(var(--shiftX_move), var(--shiftY_move), -20px);
+        }
+
+        .bg-shape {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--black);
+            z-index: -1;
+            outline: 1px solid rgba(211, 0, 0, 0.2);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .menu-item h2 {
+            position: relative;
+            z-index: 5;
+            color: var(--white);
+            font-size: clamp(2rem, 5vw, 4.2rem);
+            margin: 0;
+            padding: 12px 60px;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            pointer-events: none;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            transform: translateZ(30px);
+            transition: transform 0.25s;
+        }
+
+        .menu-item:hover {
+            transform: rotateX(0deg) rotateY(-15deg) rotateZ(-1deg) scale(1.1);
+        }
+
+        .menu-item:hover::before {
+            opacity: 0.9;
+            transform: translate3d(var(--shiftX_move), var(--shiftY_move), -10px) scale(1.2);
+        }
+
+        .menu-item:hover .bg-shape {
+            background: var(--red);
+            transform: scale(1.4);
+            outline: 3px solid var(--white);
+            box-shadow: -30px 30px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        .menu-item:hover h2 {
+            transform: translateZ(100px) scale(1.8);
+            text-shadow: 8px 8px 0px var(--black);
+            animation: type-writer 0.4s steps(12) forwards;
+        }
+
+        @keyframes type-writer {
+            from {
+                clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+            }
+
+            to {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+        }
+
+        .smoke-particle {
+            position: fixed;
+            z-index: 2000;
+            pointer-events: none;
+            clip-path: polygon(20% 0%, 100% 20%, 80% 100%, 0% 80%);
+        }
+
+        #video-source {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loading-screen">
+        <div class="loading-text">Take Your Time<span id="dots"></span></div>
+    </div>
+
+    <div class="scanlines"></div>
+    <video id="video-source" loop muted autoplay playsinline>
+        <source src="/img/p5.mp4" type="video/mp4">
+    </video>
+    <div id="canvas-container"></div>
+
+    <nav class="ui-layer">
+        <a href="html/ex1.html" class="menu-link">
+            <div class="menu-item" data-speed="70">
+                <div class="bg-shape" style="clip-path: polygon(0% 10%, 100% 0%, 95% 90%, 5% 100%);"></div>
+                <h2>EXERCÍCIO 1</h2>
+            </div>
+        </a>
+        <a href="html/ex2.html" class="menu-link">
+            <div class="menu-item" data-speed="120">
+                <div class="bg-shape" style="clip-path: polygon(5% 0%, 100% 12%, 92% 100%, 0% 92%);"></div>
+                <h2>EXERCÍCIO 2</h2>
+            </div>
+        </a>
+        <a href="html/ex3.html" class="menu-link">
+            <div class="menu-item" data-speed="50">
+                <div class="bg-shape" style="clip-path: polygon(0% 5%, 98% 15%, 100% 95%, 5% 85%);"></div>
+                <h2>EXERCÍCIO 3</h2>
+            </div>
+        </a>
+        <a href="html/ex4.html" class="menu-link">
+            <div class="menu-item" data-speed="100">
+                <div class="bg-shape" style="clip-path: polygon(10% 0%, 90% 5%, 100% 100%, 0% 95%);"></div>
+                <h2>EXERCÍCIO 4</h2>
+            </div>
+        </a>
+    </nav>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        const video = document.getElementById('video-source');
+        const texture = new THREE.VideoTexture(video);
+        let backgroundMesh;
+
+        function updateCover() {
+            const distance = 70;
+            camera.position.z = distance;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            const vFOV = THREE.MathUtils.degToRad(camera.fov);
+            const height = 2 * Math.tan(vFOV / 2) * distance;
+            const width = height * camera.aspect;
+            const videoAspect = 16 / 9;
+            let meshW, meshH;
+            if (camera.aspect > videoAspect) { meshW = width; meshH = width / videoAspect; }
+            else { meshH = height; meshW = height * videoAspect; }
+            const safetyMargin = 1.4;
+            meshW *= safetyMargin; meshH *= safetyMargin;
+
+            if (!backgroundMesh) {
+                backgroundMesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: texture }));
+                scene.add(backgroundMesh);
+                gsap.to(".menu-item", { duration: 1, opacity: 1, x: 0, stagger: 0.15, ease: "expo.out" });
+            }
+            backgroundMesh.scale.set(meshW, meshH, 1);
+        }
+
+        video.onloadedmetadata = () => { updateCover(); video.play(); };
+
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+
+            if (backgroundMesh) {
+                gsap.to(backgroundMesh.rotation, { y: -x * 0.15, x: y * 0.12, duration: 2.5, ease: "power2.out" });
+                gsap.to(backgroundMesh.position, { x: -x * 15, y: y * 12, duration: 2.5, ease: "power2.out" });
+            }
+
+            gsap.to(".menu-item", {
+                y: (i, t) => -y * t.dataset.speed * 1.5,
+                x: (i, t) => -x * 60,
+                rotateY: -25 + (x * 15),
+                rotateX: 10 + (y * -10),
+                duration: 2,
+                ease: "power3.out",
+                stagger: 0.05
+            });
+
+            document.querySelectorAll('.menu-item').forEach(item => {
+                const shiftX = x * -50;
+                const shiftY = y * -50;
+                item.style.setProperty('--shiftX_move', `${shiftX}px`);
+                item.style.setProperty('--shiftY_move', `${shiftY}px`);
+            });
+        });
+
+        const dotsElement = document.getElementById('dots');
+        let dotCount = 0;
+        function startLoadingSequence(url) {
+            const screen = document.getElementById('loading-screen');
+            screen.style.display = 'flex';
+            setInterval(() => { dotCount = (dotCount + 1) % 4; dotsElement.textContent = ".".repeat(dotCount); }, 400);
+            gsap.to(screen, { opacity: 1, duration: 0.4, onComplete: () => { setTimeout(() => { window.location.href = url; }, 5000); } });
+        }
+
+        document.querySelectorAll('.menu-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const url = this.getAttribute('href');
+                const rect = this.getBoundingClientRect();
+                const cx = rect.left + rect.width / 2;
+                const cy = rect.top + rect.height / 2;
+
+                for (let i = 0; i < 120; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'smoke-particle';
+                    document.body.appendChild(p);
+                    const size = Math.random() * 120 + 30;
+                    p.style.width = p.style.height = `${size}px`;
+                    p.style.background = Math.random() > 0.4 ? '#000' : '#d30000';
+                    p.style.left = `${cx}px`; p.style.top = `${cy}px`;
+                    gsap.to(p, {
+                        x: (Math.random() - 0.5) * window.innerWidth * 3,
+                        y: (Math.random() - 0.5) * window.innerHeight * 3,
+                        rotation: Math.random() * 1080,
+                        scale: 70, duration: 0.7, ease: "power3.in", delay: Math.random() * 0.1,
+                        onComplete: () => { if (i === 0) startLoadingSequence(url); p.remove(); }
+                    });
+                }
+            });
+        });
+
+        function animate() { requestAnimationFrame(animate); renderer.render(scene, camera); }
+        animate();
+        gsap.set(".menu-item", { x: 500 });
+        window.addEventListener('resize', () => { renderer.setSize(window.innerWidth, window.innerHeight); updateCover(); });
+    </script>
+</body>
+
+</html>

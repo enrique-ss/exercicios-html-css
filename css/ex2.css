@@ -1,17 +1,27 @@
 @font-face {
     font-family: 'p5';
-    src: url('p5.ttf');
+    src: url('/img/p5.ttf');
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    cursor: url('/img/normal.png'), auto;
 }
 
 body {
-    background: #000 repeating-linear-gradient(45deg, #000, #000 10px, rgba(227, 6, 21, 0.089) 10px, rgba(227, 6, 19, .05) 20px);    color: #CCC;
+    background: #000 repeating-linear-gradient(45deg, #000, #000 10px, rgba(227, 6, 21, 0.089) 10px, rgba(227, 6, 19, .05) 20px);
+    color: #CCC;
     text-align: center;
+}
+
+a,
+button,
+img,
+li,
+.menu-item {
+    cursor: url('/img/link.png'), pointer;
 }
 
 header {
@@ -62,6 +72,11 @@ hr {
     border: 0;
     background: linear-gradient(90deg, transparent, #E30613, transparent);
     margin: 2.5vh auto;
+}
+
+p {
+    max-width: 75vh;
+    margin: 1vh auto;
 }
 
 .lista-numerada,
