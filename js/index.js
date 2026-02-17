@@ -54,7 +54,7 @@ if (video.readyState >= 1) { updateCover(); video.play().catch(() => { }); }
 setTimeout(() => { revealMenu(); }, 2000);
 
 // --- Áudio ---
-const bgAudio = new Audio('/img/last.mp3');
+const bgAudio = new Audio('/resources/last.mp3');
 bgAudio.loop = true;
 bgAudio.volume = 0.6;
 
@@ -66,11 +66,11 @@ Object.assign(musicHint.style, {
     pointerEvents: 'none',
     zIndex: '9999',
     color: '#ffffff',
-    fontSize: '1.6rem',
+    fontSize: '4rem',
     fontFamily: "'p5', 'Impact', sans-serif",
     textTransform: 'uppercase',
     letterSpacing: '3px',
-    textShadow: '3px 3px 0px #000',
+    textShadow: '4px 4px 0px #000',
     whiteSpace: 'nowrap',
     opacity: '0',
     transform: 'translate(22px, 22px)',
