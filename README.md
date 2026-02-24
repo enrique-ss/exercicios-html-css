@@ -8,13 +8,13 @@ Clone o repositório e abra o `index.html` com o Live Server.
 
 ## Exercícios
 
-**Ex 1** — Cartão de visita do Ren Amamiya / Joker
+**Ex 1**: Cartão de visita do Ren Amamiya / Joker
 
-**Ex 2** — Lista de personas, habilidades e itens
+**Ex 2**: Lista de personas, habilidades e itens
 
-**Ex 3** — Cards de destinos icônicos de Tóquio
+**Ex 3**: Cards de destinos icônicos de Tóquio
 
-**Ex 4** — Loja fictícia dos Phantom Thieves
+**Ex 4**: Loja fictícia dos Phantom Thieves
 
 ## Stack
 
